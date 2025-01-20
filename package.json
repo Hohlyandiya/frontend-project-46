@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "commander": "^13.0.0",
+    "eslint": "^9.18.0"
+  },
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hohlyandiya/frontend-project-46.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "homepage": "https://github.com/Hohlyandiya/frontend-project-46#readme",
+  "type": "module"
+}
