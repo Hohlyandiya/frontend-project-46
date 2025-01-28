@@ -1,9 +1,34 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import readFile from './src/index.js'
+import readFile from './src/file-parse.js';
+import _ from 'lodash';
 
 const program = new Command();
+
+const searchDiff = (firstContent, secondContent, distinctiveMark) => {
+    const result = [];
+    for (const [key, value] of Object.entries(firstContent)) {
+        if (Object.hasOwn(secondContent, key) && secondContent[key] === value) {
+            result.push({[`  ${key}`]: value}); 
+        } else {
+            result.push({[`${distinctiveMark} ${key}`]: value});
+        }
+    }
+    return result;
+}
+
+const genDiff = (firstFileContent, secondFileContent) => {
+    const firstDiffContent = searchDiff(firstFileContent, secondFileContent, '-');
+    const secondDiffContent = searchDiff(secondFileContent, firstFileContent, '+');
+    const allContent = [...firstDiffContent, ...secondDiffContent];
+    
+    const result = _.sortBy(allContent, (object) => Object.keys(object)
+    .map(element => element.slice(2)))
+    .reduce((acc, elem) => Object.assign(acc, elem), {});
+
+    console.log(JSON.stringify(result, null, 2).replace(/"/g, ''));
+};
 
 program
 .description('Compares two configuration files and shows a difference.')
@@ -14,7 +39,9 @@ program
 .helpOption('-h, --help', 'output usage information')
 .action((filepath1, filepath2) => {
     const listFilepath = [filepath1, filepath2];
-    listFilepath.map((filepath) => readFile(filepath));
+    const listFilesContent = listFilepath.map((filepath) => readFile(filepath));
+    const [fileContent1, fileContent2] = listFilesContent;
+    genDiff(fileContent1, fileContent2);
 });
 
 program.parse();
