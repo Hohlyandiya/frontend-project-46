@@ -1,6 +1,7 @@
 // @ts-check
 
 import { genDiff } from "../gendiff.js";
+import { test, expect } from "@jest/globals";
 
 const firstFileContent = {
     "host": "hexlet.io",

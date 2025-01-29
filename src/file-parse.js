@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs'
 import path from 'path';
+import process from 'process';
 
 const readFile = (filePath) => {
     const currentDir = process.cwd();
