@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// @ts-check
 
 import { Command } from 'commander';
 import readFile from './src/file-parse.js';
@@ -18,7 +18,7 @@ const searchDiff = (firstContent, secondContent, distinctiveMark) => {
     return result;
 }
 
-const genDiff = (firstFileContent, secondFileContent) => {
+export const genDiff = (firstFileContent, secondFileContent) => {
     const firstDiffContent = searchDiff(firstFileContent, secondFileContent, '-');
     const secondDiffContent = searchDiff(secondFileContent, firstFileContent, '+');
     const allContent = [...firstDiffContent, ...secondDiffContent];
@@ -27,7 +27,11 @@ const genDiff = (firstFileContent, secondFileContent) => {
     .map(element => element.slice(2)))
     .reduce((acc, elem) => Object.assign(acc, elem), {});
 
-    console.log(JSON.stringify(result, null, 2).replace(/"/g, ''));
+    return JSON.stringify(result, null, 2).replace(/"|,/g, '');
+};
+
+export const testing = (a, b) => {
+    return a + b;
 };
 
 program
@@ -41,7 +45,7 @@ program
     const listFilepath = [filepath1, filepath2];
     const listFilesContent = listFilepath.map((filepath) => readFile(filepath));
     const [fileContent1, fileContent2] = listFilesContent;
-    genDiff(fileContent1, fileContent2);
+    console.log(genDiff(fileContent1, fileContent2));
 });
 
-program.parse();
+//program.parse();
