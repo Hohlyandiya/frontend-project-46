@@ -2,3 +2,4 @@
 [![Actions Status](https://github.com/Hohlyandiya/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Hohlyandiya/frontend-project-46/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c6db7c5d6d374fb398af/maintainability)](https://codeclimate.com/github/Hohlyandiya/frontend-project-46/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c6db7c5d6d374fb398af/test_coverage)](https://codeclimate.com/github/Hohlyandiya/frontend-project-46/test_coverage)
+[![Lint-and-tests](https://github.com/Hohlyandiya/frontend-project-46/actions/workflows/github-actions-demo.yml/badge.svg?branch=main&event=push)](https://github.com/Hohlyandiya/frontend-project-46/actions/workflows/github-actions-demo.yml)

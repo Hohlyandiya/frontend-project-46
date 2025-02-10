@@ -22,16 +22,13 @@ export const genDiff = (firstFileContent, secondFileContent) => {
     const firstDiffContent = searchDiff(firstFileContent, secondFileContent, '-');
     const secondDiffContent = searchDiff(secondFileContent, firstFileContent, '+');
     const allContent = [...firstDiffContent, ...secondDiffContent];
+    const indent = 2;
     
     const result = _.sortBy(allContent, (object) => Object.keys(object)
-    .map(element => element.slice(2)))
+    .map(element => element.slice(indent)))
     .reduce((acc, elem) => Object.assign(acc, elem), {});
 
-    return JSON.stringify(result, null, 2).replace(/"|,/g, '');
-};
-
-export const testing = (a, b) => {
-    return a + b;
+    return JSON.stringify(result, null, indent).replace(/"|,/g, '');
 };
 
 program
