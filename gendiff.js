@@ -1,7 +1,7 @@
 // @ts-check
 
 import { Command } from 'commander';
-import readFile from './src/file-parse.js';
+import {JSONparse, YAMLparse} from './src/parsers/fileparse.js';
 import _ from 'lodash';
 
 const program = new Command();
@@ -40,7 +40,15 @@ program
 .helpOption('-h, --help', 'output usage information')
 .action((filepath1, filepath2) => {
     const listFilepath = [filepath1, filepath2];
-    const listFilesContent = listFilepath.map((filepath) => readFile(filepath));
+    //const listFilesContent = listFilepath.map((filepath) => JSONparse(filepath));
+    const listFilesContent = listFilepath.map((filepath) => {
+        if (filepath.split('.').at(-1) === 'yaml' || filepath.split('.').at(-1) === 'yml') {
+            return YAMLparse(filepath);
+        } if (filepath.split('.').at(-1) === 'json') {
+            return JSONparse(filepath);
+        }
+        throw new Error('Unsupported file extension');
+    });
     const [fileContent1, fileContent2] = listFilesContent;
     console.log(genDiff(fileContent1, fileContent2));
 });
