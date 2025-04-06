@@ -29,6 +29,6 @@ program
         plain(fileContent1, fileContent2);
     };
 })
-.parse();
+//.parse();
 
 export default genDiff;
