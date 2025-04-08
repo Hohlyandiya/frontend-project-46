@@ -23,7 +23,8 @@ const updated = (currentKey, currentValue, previousValue) => {
 
 const getPlainFormatter = (fileContent1, fileContent2, allContent, currentKey = []) => {
     let result = [];
-    for (const key in allContent) {
+    const listKey = Object.keys(allContent);
+    listKey.forEach(key => {
         currentKey = [...currentKey, key];
         const pathToKey = currentKey.join('.');
         if (Object.hasOwn(fileContent1, key) && Object.hasOwn(fileContent2, key)) {
@@ -38,7 +39,7 @@ const getPlainFormatter = (fileContent1, fileContent2, allContent, currentKey = 
             result = [...result, added(pathToKey, fileContent2[key])];
         }
         currentKey.pop();
-    }
+    })
     return result;
 }
 
@@ -47,7 +48,6 @@ const plain = (fileContent1, fileContent2) => {
     const secondaryFile = fileContent2;
     const allContent = _.merge({}, mainFile,secondaryFile)
     const result = getPlainFormatter(mainFile, secondaryFile, allContent).sort().join('\n');
-    console.log(result);
     return result;
 }
 

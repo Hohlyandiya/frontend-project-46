@@ -5,11 +5,13 @@ import fileparse from './src/parsers/fileparse.js';
 import tree from './src/formatters/tree/tree.js';
 import plain from './src/formatters/plain/plain.js';
 import useFormatter from './src/formatters/index.js';
+import json from './src/formatters/json/json.js';
 
 const genDiff = (filepath1, filepath2, formatter = 'tree') => {
     const fileContent1 = fileparse(filepath1);
     const fileContent2 = fileparse(filepath2);
-    return useFormatter(fileContent1, fileContent2, formatter);
+    const result = useFormatter(fileContent1, fileContent2, formatter);
+    return result;
 }
 
 const program = new Command();
@@ -23,10 +25,12 @@ program
 .action((filepath1, filepath2, options) => {
     const fileContent1 = fileparse(filepath1);
     const fileContent2 = fileparse(filepath2);
-    if (options.format === undefined) {
-        tree(fileContent1, fileContent2);
+    if (options.format === 'plain') {
+        console.log(plain(fileContent1, fileContent2));
+    } else if (options.format === 'json') {
+        console.log(json(fileContent1, fileContent2));
     } else {
-        plain(fileContent1, fileContent2);
+        console.log(tree(fileContent1, fileContent2));
     };
 })
 //.parse();
