@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-check
 
 import { Command } from 'commander';
 import genDiff from '../src/index.js';
