@@ -7,7 +7,10 @@
   },
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "main": "gendiff.js",
+  "main": "src.index.js",
+  "bin":{
+    "gendiff": "bin/gendiff.js"
+  },
   "scripts": {
     "test": "npx jest"
   },
