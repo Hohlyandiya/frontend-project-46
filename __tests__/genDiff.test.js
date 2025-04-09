@@ -9,7 +9,7 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readContentFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+const readContentFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8').trim();
 const getFilepath = (filename) =>getFixturePath(filename);
 
 const isJSON = (str) => {
