@@ -1,5 +1,3 @@
-// @ts-check
-
 import fileparse from './parsers/fileparse.js';
 import useFormatter from './formatters/index.js';
 
