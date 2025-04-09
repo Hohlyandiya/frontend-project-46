@@ -1,38 +1,20 @@
-// @ts-check
+// @ts-nocheck
 
 import { Command } from 'commander';
-import fileparse from './src/parsers/fileparse.js';
-import tree from './src/formatters/tree/tree.js';
-import plain from './src/formatters/plain/plain.js';
-import useFormatter from './src/formatters/index.js';
-import json from './src/formatters/json/json.js';
-
-const genDiff = (filepath1, filepath2, formatter = 'tree') => {
-    const fileContent1 = fileparse(filepath1);
-    const fileContent2 = fileparse(filepath2);
-    const result = useFormatter(fileContent1, fileContent2, formatter);
-    return result;
-}
+import genDiff from './src/index.js';
 
 const program = new Command();
 
 program
-.description('Compares two configuration files and shows a difference.')
 .arguments('<filepath1> <filepath2>')
+.description('Compares two configuration files and shows a difference.')
 .option('-V, --version', 'output the version number')
 .option('-f, --format [type]', 'output format')
-.helpOption('-h, --help', 'output usage information')
+.helpOption('-h, --help', 'display help for command')
 .action((filepath1, filepath2, options) => {
-    const fileContent1 = fileparse(filepath1);
-    const fileContent2 = fileparse(filepath2);
-    if (options.format === 'plain') {
-        console.log(plain(fileContent1, fileContent2));
-    } else if (options.format === 'json') {
-        console.log(json(fileContent1, fileContent2));
-    } else {
-        console.log(tree(fileContent1, fileContent2));
-    };
-})
-//.parse();
+    console.log(genDiff(filepath1, filepath2, options.format))
+});
+
+program.parse();
 
 export default genDiff;

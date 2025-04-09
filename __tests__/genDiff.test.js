@@ -1,6 +1,6 @@
 // @ts-check
 
-import genDiff from "../gendiff.js";
+import genDiff from "../src/index.js";
 import { fileURLToPath } from 'url';
 import { test, expect } from "@jest/globals";
 import path from 'path';
