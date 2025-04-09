@@ -8,13 +8,13 @@ const stringify = (obj, repeatChar, repeatAmount, deep = 1) => {
   const listKey = Object.keys(obj);
   listKey.forEach((key) => {
     if (obj[key] instanceof Object) {
-        result = `${result}\n${offsetIndent}${key}: {${stringify(obj[key], repeatChar, repeatAmount, deep + 1)}\n${indentWithoutOffset}}`;
-        return;
-      }
-      result = `${result}\n${offsetIndent}${key}: ${obj[key]}`;
-  })
+      result = `${result}\n${offsetIndent}${key}: {${stringify(obj[key], repeatChar, repeatAmount, deep + 1)}\n${indentWithoutOffset}}`;
+      return;
+    }
+    result = `${result}\n${offsetIndent}${key}: ${obj[key]}`;
+  });
   return result;
-}
+};
 
 const tree = (firstFileContent, secondFileContent) => {
   const sortedTreeDiff = getSortedTreeDiff(firstFileContent, secondFileContent);

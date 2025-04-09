@@ -7,19 +7,19 @@ const convertValue = (value) => {
     return '[complex value]';
   }
   return value;
-}
+};
 
 const added = (currentKey, value) => {
   return `Property '${currentKey}' was added with value: ${convertValue(value)}`;
-}
+};
 
 const removed = (currentKey) => {
   return `Property '${currentKey}' was removed`;
-}
+};
 
 const updated = (currentKey, currentValue, previousValue) => {
   return `Property '${currentKey}' was updated. From ${convertValue(previousValue)} to ${convertValue(currentValue)}`;
-}
+};
 
 const getPlainFormatter = (fileContent1, fileContent2, allContent, currentKey = []) => {
   let result = [];
@@ -41,7 +41,7 @@ const getPlainFormatter = (fileContent1, fileContent2, allContent, currentKey = 
     currentKey.pop();
   })
   return result;
-}
+};
 
 const plain = (fileContent1, fileContent2) => {
   const mainFile = fileContent1;
@@ -49,6 +49,6 @@ const plain = (fileContent1, fileContent2) => {
   const allContent = _.merge({}, mainFile,secondaryFile)
   const result = getPlainFormatter(mainFile, secondaryFile, allContent).sort().join('\n');
   return result;
-}
+};
 
 export default plain;

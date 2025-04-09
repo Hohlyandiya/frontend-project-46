@@ -24,10 +24,10 @@
   "homepage": "https://github.com/Hohlyandiya/frontend-project-46#readme",
   "type": "module",
   "devDependencies": {
-    "@eslint/js": "^9.19.0",
+    "@eslint/js": "^9.24.0",
     "eslint": "^9.24.0",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^15.14.0",
+    "globals": "^15.15.0",
     "jest": "^29.7.0"
   }
 }
