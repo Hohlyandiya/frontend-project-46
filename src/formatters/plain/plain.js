@@ -21,24 +21,26 @@ const updated = (currentKey, currentValue, previousValue) => {
   return `Property '${currentKey}' was updated. From ${convertValue(previousValue)} to ${convertValue(currentValue)}`;
 };
 
-const getPlainFormatter = (fileContent1, fileContent2, allContent, currentKey = []) => {
-  let result = [];
+const getPlainFormatter = (fileContent1, fileContent2, allContent, listKeys = []) => {
+  const result = [];
+  const listCurrentsKeys = listKeys;
   const listKey = Object.keys(allContent);
-  listKey.forEach(key => {
-    currentKey = [...currentKey, key];
-    const pathToKey = currentKey.join('.');
+  listKey.forEach((key) => {
+    listCurrentsKeys.push(key);
+    const pathToKey = listCurrentsKeys.join('.');
     if (Object.hasOwn(fileContent1, key) && Object.hasOwn(fileContent2, key)) {
       if (fileContent1[key] instanceof Object && fileContent2[key] instanceof Object) {
-        result = [...result, ...getPlainFormatter(fileContent1[key], fileContent2[key], allContent[key], currentKey)];
+        const listResults = getPlainFormatter(fileContent1[key], fileContent2[key], allContent[key], listCurrentsKeys);
+        result.push(...listResults);
       } else if (fileContent1[key] !== fileContent2[key]) {
-        result = [...result, updated(pathToKey, fileContent2[key], fileContent1[key])];
+        result.push(updated(pathToKey, fileContent2[key], fileContent1[key]));
       }
     } else if (!Object.hasOwn(fileContent2, key) && Object.hasOwn(fileContent1, key)){
-      result = [...result, removed(pathToKey)];
+      result.push(removed(pathToKey));
     } else if (!Object.hasOwn(fileContent1, key) && Object.hasOwn(fileContent2, key)){
-      result = [...result, added(pathToKey, fileContent2[key])];
+      result.push(added(pathToKey, fileContent2[key]));
     }
-    currentKey.pop();
+    listCurrentsKeys.splice(-1, 1);
   })
   return result;
 };
@@ -46,7 +48,7 @@ const getPlainFormatter = (fileContent1, fileContent2, allContent, currentKey = 
 const plain = (fileContent1, fileContent2) => {
   const mainFile = fileContent1;
   const secondaryFile = fileContent2;
-  const allContent = _.merge({}, mainFile,secondaryFile)
+  const allContent = _.merge({}, mainFile, secondaryFile);
   const result = getPlainFormatter(mainFile, secondaryFile, allContent).sort().join('\n');
   return result;
 };
