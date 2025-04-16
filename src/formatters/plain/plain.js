@@ -21,35 +21,36 @@ const updated = (currentKey, currentValue, previousValue) => {
   return `Property '${currentKey}' was updated. From ${convertValue(previousValue)} to ${convertValue(currentValue)}`;
 };
 
-const getPlainFormatter = (fileContent1, fileContent2, allContent, listKeys = []) => {
+const getPlainFormatter = (arrDiff, listKeys = []) => {
   const result = [];
-  const listCurrentsKeys = listKeys;
-  const listKey = Object.keys(allContent);
-  listKey.forEach((key) => {
-    listCurrentsKeys.push(key);
-    const pathToKey = listCurrentsKeys.join('.');
-    if (Object.hasOwn(fileContent1, key) && Object.hasOwn(fileContent2, key)) {
-      if (fileContent1[key] instanceof Object && fileContent2[key] instanceof Object) {
-        const listResults = getPlainFormatter(fileContent1[key], fileContent2[key], allContent[key], listCurrentsKeys);
-        result.push(...listResults);
-      } else if (fileContent1[key] !== fileContent2[key]) {
-        result.push(updated(pathToKey, fileContent2[key], fileContent1[key]));
-      }
-    } else if (!Object.hasOwn(fileContent2, key) && Object.hasOwn(fileContent1, key)){
-      result.push(removed(pathToKey));
-    } else if (!Object.hasOwn(fileContent1, key) && Object.hasOwn(fileContent2, key)){
-      result.push(added(pathToKey, fileContent2[key]));
+  const prevElements = [];
+  const pathElements = listKeys;
+  arrDiff.forEach((element) => {
+    pathElements.push(element.key);
+    const pathToKey = pathElements.join('.');
+    if (Array.isArray(element.value)) {
+      result.push(...getPlainFormatter(element.value, pathElements));
     }
-    listCurrentsKeys.splice(-1, 1);
-  })
+    if (element.action === 'removed') {
+      prevElements.push(element)
+      result.push(removed(pathToKey));
+    }
+    if (element.action === 'added') {
+      const lastElement = prevElements[prevElements.length - 1];
+      if (lastElement !== undefined && lastElement.key === element.key) {
+        result.splice(-1, 1);
+        result.push(updated(pathToKey, element.value, lastElement.value));
+      } else {
+        result.push(added(pathToKey, element.value));
+      }
+    }
+    pathElements.splice(-1, 1);
+  });
   return result;
 };
 
-const plain = (fileContent1, fileContent2) => {
-  const mainFile = fileContent1;
-  const secondaryFile = fileContent2;
-  const allContent = _.merge({}, mainFile, secondaryFile);
-  const result = getPlainFormatter(mainFile, secondaryFile, allContent).sort().join('\n');
+const plain = (arrDiff) => {
+  const result = _.sortBy(getPlainFormatter(arrDiff)).join('\n');
   return result;
 };
 

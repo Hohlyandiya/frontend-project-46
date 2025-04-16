@@ -4,8 +4,8 @@ import { tree } from './tree/tree.js';
 
 const useFormatter = (arrDiff, formatter) => {
   switch (formatter) {
-/*     case 'plain':
-      return plain(arrDiff); */
+    case 'plain':
+      return plain(arrDiff);
     case 'json':
       return json(arrDiff);
     default:

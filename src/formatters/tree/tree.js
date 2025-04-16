@@ -20,7 +20,7 @@ const setDistinctiveMark = (obj) => {
   switch(obj.action) {
     case ('added'):
       return `+ ${obj.key}`;
-    case ('remote'):
+    case ('removed'):
       return `- ${obj.key}`;
     default:
       return `  ${obj.key}`;

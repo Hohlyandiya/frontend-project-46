@@ -8,7 +8,7 @@ const buildDiff = (fileContent1, fileContent2) => {
             return {key, value: fileContent2[key], action: 'added'};
         }
         if (!_.has(fileContent2, key)) {
-            return {key, value: fileContent1[key], action: 'remote'}; 
+            return {key, value: fileContent1[key], action: 'removed'}; 
         } 
         if (fileContent1[key] === fileContent2[key]) {
             return {key, value: fileContent2[key], action: 'unchanged'};
@@ -16,7 +16,9 @@ const buildDiff = (fileContent1, fileContent2) => {
         if (fileContent1[key] instanceof Object && fileContent2[key] instanceof Object) {
             return {key, value: buildDiff(fileContent1[key], fileContent2[key]), action: 'unchanged'};
         }
-        return [{key, value: fileContent1[key], action: 'remote'}, {key, value: fileContent2[key], action: 'added'}];
+        return (
+            [{key, value: fileContent1[key], action: 'removed'}, 
+            {key, value: fileContent2[key], action: 'added'}]);
     });
     return _.sortBy(result, ['key']);
 };
