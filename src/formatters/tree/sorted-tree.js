@@ -1,32 +1,35 @@
 import _ from 'lodash';
 
 const getShiftToTheRight = (obj) => {
-  let result = {};
+  const result = {};
   const listKey = Object.keys(obj);
-  listKey.forEach(key => {
+  listKey.forEach((key) => {
     if (obj[key] instanceof Object) {
-      result = {...result, [`  ${key}`]: getShiftToTheRight(obj[key])};
+      result[`  ${key}`] = getShiftToTheRight(obj[key]);
       return;
     }
-    result = {...result, [`  ${key}`]: obj[key]}
-  })
+    result[`  ${key}`] = obj[key];
+  });
   return result;
-}
+};
 
 const searchDiff = (firstContent, secondContent, distinctiveMark) => {
-  let result = {};
+  const result = {};
   const listKey = Object.keys(firstContent);
-  listKey.forEach(key => {
+  listKey.forEach((key) => {
     if (Object.hasOwn(secondContent, key) && firstContent[key] instanceof Object && secondContent[key] instanceof Object) {
-      result = {...result, [`  ${key}`]: searchDiff(firstContent[key], secondContent[key], distinctiveMark)};
+      result[`  ${key}`] = searchDiff(firstContent[key], secondContent[key], distinctiveMark);
       return;
     }
     if (firstContent[key] instanceof Object ) {
       firstContent[key] = getShiftToTheRight(firstContent[key]);
     }
-    result = Object.hasOwn(secondContent, key) && secondContent[key] === firstContent[key] ? 
-    {...result, [`  ${key}`]: firstContent[key]} : 
-    {...result, [`${distinctiveMark} ${key}`]: firstContent[key]};
+
+    if (Object.hasOwn(secondContent, key) && secondContent[key] === firstContent[key]) {
+        result[`  ${key}`] = firstContent[key];
+    } else {
+        result[`${distinctiveMark} ${key}`] = firstContent[key];
+    }
   })
   return result;
 }
@@ -50,13 +53,13 @@ const sortContent = (arrData) => {
     return acc;
   }, {});
   return result;
-}
+};
 
 const getSortedTreeDiff = (firstFileContent, secondFileContent) => {
   const firstDiffContent = searchDiff(firstFileContent, secondFileContent, '-');
   const secondDiffContent = searchDiff(secondFileContent, firstFileContent, '+');
   const allContent = sortContent(_.merge(firstDiffContent, secondDiffContent));
   return allContent;
-}
+};
 
 export default getSortedTreeDiff;
