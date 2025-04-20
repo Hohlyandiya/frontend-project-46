@@ -18,7 +18,7 @@ const buildDiff = (fileContent1, fileContent2) => {
     }
     return (
       [{ key, value: fileContent1[key], action: 'removed' },
-      { key, value: fileContent2[key], action: 'added' }]);
+        { key, value: fileContent2[key], action: 'added' }]);
   });
   return _.sortBy(result, ['key']);
 };
