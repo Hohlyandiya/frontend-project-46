@@ -28,7 +28,7 @@ const setDistinctiveMark = (obj) => {
 const setIndentation = (obj) => {
   const listKeys = Object.keys(obj);
   return listKeys.map((key) => {
-    const object = { key, value: obj[key] }
+    const object = { key, value: obj[key] };
     return object;
   });
 };
