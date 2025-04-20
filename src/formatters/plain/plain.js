@@ -27,34 +27,34 @@ const getPlainFormatter = (arrDiff, listPathElements = []) => {
   const result = arrDiff.flatMap((element) => {
     const pathToKey = [...listPathElements, element.key].join('.');
     if (Array.isArray(element.value)) {
-      const pathElements = [...listPathElements, element.key]
+      const pathElements = [...listPathElements, element.key];
       return [...getPlainFormatter(element.value, pathElements)];
-    };
+    }
     if (element.action === 'removed') {
       const firstElement = 0;
       const update = arrDiff
-      .filter((elem) => elem.key === element.key && elem.action !== element.action);
+        .filter((elem) => elem.key === element.key && elem.action !== element.action);
       if (update.length !== 0) {
         return updated(pathToKey, update[firstElement].value, element.value);
-      } 
+      }
       return removed(pathToKey);
     }
     if (element.action === 'added') {
-        const remove = arrDiff
+      const remove = arrDiff
         .filter((elem) => elem.key === element.key && elem.action !== element.action);
-        if (remove.length === 0) {
-          return added(pathToKey, element.value);
-        } 
+      if (remove.length === 0) {
+        return added(pathToKey, element.value);
+      }
     }
-    return;
+    return null;
   });
   return result;
 };
 
 const plain = (arrDiff) => {
-  const result = getPlainFormatter(arrDiff).filter((str) => str !== undefined)
-  .join('\n')
-  .replace(/(,)/g, '');
+  const result = getPlainFormatter(arrDiff).filter((str) => str !== null)
+    .join('\n')
+    .replace(/(,)/g, '');
   return result;
 };
 

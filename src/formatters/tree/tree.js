@@ -15,7 +15,7 @@ const stringify = (obj, deep = 1) => {
 };
 
 const setDistinctiveMark = (obj) => {
-  switch(obj.action){
+  switch (obj.action) {
     case ('added'):
       return `+ ${obj.key}`;
     case ('removed'):
@@ -28,7 +28,8 @@ const setDistinctiveMark = (obj) => {
 const setIndentation = (obj) => {
   const listKeys = Object.keys(obj);
   return listKeys.map((key) => {
-    return { key, value: obj[key] };
+    const object = { key, value: obj[key] }
+    return object;
   });
 };
 
