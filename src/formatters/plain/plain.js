@@ -23,11 +23,11 @@ const updated = (currentKey, replaceableValue, updateValue) => {
   return message;
 };
 
-const getAlignment= (arrDiff, element) => {
+const getAlignment = (arrDiff, element) => {
   const alignment = arrDiff
     .filter((elem) => elem.key === element.key && elem.action !== element.action);
   return alignment;
-}
+};
 
 const getPlainFormatter = (arrDiff, listPathElements = []) => {
   const firstElement = 0;
