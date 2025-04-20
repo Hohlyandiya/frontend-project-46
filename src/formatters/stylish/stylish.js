@@ -33,21 +33,21 @@ const setIndentation = (obj) => {
   });
 };
 
-export const formatterTree = (arrDiff) => {
+export const formatterStylish = (arrDiff) => {
   const result = arrDiff.reduce((acc, obj) => {
     const { value } = obj;
     if (Array.isArray(value)) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterTree(value) };
+      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(value) };
     }
     if (value instanceof Object) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterTree(setIndentation(value)) };
+      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(setIndentation(value)) };
     }
     return { ...acc, [setDistinctiveMark(obj)]: value };
   }, {});
   return result;
 };
 
-export const tree = (arrDiff) => {
-  const result = formatterTree(arrDiff);
+export const stylish = (arrDiff) => {
+  const result = formatterStylish(arrDiff);
   return `{${stringify(result)}\n}`.replace(/(,)/g, '');
 };

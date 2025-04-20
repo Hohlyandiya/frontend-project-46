@@ -1,6 +1,6 @@
 import json from './json/json.js';
 import plain from './plain/plain.js';
-import { tree } from './tree/tree.js';
+import { stylish } from './stylish/stylish.js';
 
 const useFormatter = (arrDiff, formatter) => {
   switch (formatter) {
@@ -9,7 +9,7 @@ const useFormatter = (arrDiff, formatter) => {
     case 'json':
       return json(arrDiff);
     default:
-      return tree(arrDiff);
+      return stylish(arrDiff);
   }
 };
 
