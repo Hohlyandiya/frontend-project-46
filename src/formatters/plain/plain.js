@@ -20,8 +20,8 @@ const removed = (currentKey) => {
   return message;
 };
 
-const updated = (currentKey, currentValue, previousValue) => {
-  const message = `Property '${currentKey}' was updated. From ${convertValue(previousValue)} to ${convertValue(currentValue)}`
+const updated = (currentKey, replaceableValue, updateValue) => {
+  const message = `Property '${currentKey}' was updated. From ${convertValue(updateValue)} to ${convertValue(replaceableValue)}`
   return message;
 };
 
@@ -33,10 +33,11 @@ const getPlainFormatter = (arrDiff, listPathElements = []) => {
       return [...getPlainFormatter(element.value, pathElements)];
     }
     if (element.action === 'removed') {
+      const firstElement = 0;
       const update = arrDiff
       .filter((elem) => elem.key === element.key && elem.action !== element.action);
       if (update.length !== 0) {
-        return updated(pathToKey, element.value, update.value);
+        return updated(pathToKey, update[firstElement].value, element.value);
       } 
       return removed(pathToKey);
     }
