@@ -1,4 +1,4 @@
-import { defineConfig } from "eslint/config";
+import { defineConfig } from 'eslint/config';
 import stylistic from '@stylistic/eslint-plugin';
 
 export default defineConfig([{
@@ -7,12 +7,12 @@ export default defineConfig([{
     '@stylistic': stylistic
   },
 
-  linterOptions: {
-    reportUnusedInlineConfigs: "error",
-  },
-
   rules: {
-    "no-console": 0,
+    'no-console': 0,
+    '@stylistic/arrow-parens': ["error", "always"],
+    '@stylistic/no-extra-semi': "error",
+    '@stylistic/semi-style': ["error", "last"],
+    '@stylistic/no-trailing-spaces': "error",
     '@stylistic/indent': ['error', 2],
   },
 }]);
