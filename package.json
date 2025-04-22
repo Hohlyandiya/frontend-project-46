@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@stylistic/eslint-plugin": "^4.2.0",
     "commander": "^13.0.0",
     "fs": "^0.0.1-security",
     "js-yaml": "^4.1.0",
