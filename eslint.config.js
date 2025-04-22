@@ -10,6 +10,7 @@ export default defineConfig([{
   rules: {
     'no-console': 0,
     '@stylistic/arrow-parens': ["error", "always"],
+    '@stylistic/semi': "error",
     '@stylistic/no-extra-semi': "error",
     '@stylistic/semi-style': ["error", "last"],
     '@stylistic/no-trailing-spaces': "error",
