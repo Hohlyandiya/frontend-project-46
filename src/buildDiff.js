@@ -1,26 +1,26 @@
 import _ from 'lodash'
 
 const buildDiff = (fileContent1, fileContent2) => {
-  const allKey = [..._.keys(fileContent1), ..._.keys(fileContent2)]
+  const allKey = [..._.keys(fileContent1), ..._.keys(fileContent2),]
   const allUnionKey = _.uniq(allKey)
   const result = allUnionKey.flatMap((key) => {
     if (!_.has(fileContent1, key)) {
-      return { key, value: fileContent2[key], action: 'added' }
+      return { key, value: fileContent2[key], action: 'added', }
     }
     if (!_.has(fileContent2, key)) {
-      return { key, value: fileContent1[key], action: 'removed' }
+      return { key, value: fileContent1[key], action: 'removed', }
     }
     if (fileContent1[key] === fileContent2[key]) {
-      return { key, value: fileContent2[key], action: 'unchanged' }
+      return { key, value: fileContent2[key], action: 'unchanged', }
     }
     if (fileContent1[key] instanceof Object && fileContent2[key] instanceof Object) {
-      return { key, value: buildDiff(fileContent1[key], fileContent2[key]), action: 'unchanged' }
+      return { key, value: buildDiff(fileContent1[key], fileContent2[key]), action: 'unchanged', }
     }
     return (
-      [{ key, value: fileContent1[key], action: 'removed' },
-        { key, value: fileContent2[key], action: 'added' }])
+      [{ key, value: fileContent1[key], action: 'removed', },
+        { key, value: fileContent2[key], action: 'added', },])
   })
-  return _.sortBy(result, ['key'])
+  return _.sortBy(result, ['key',])
 }
 
 export default buildDiff

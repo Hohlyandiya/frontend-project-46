@@ -25,17 +25,17 @@ const updated = (currentKey, replaceableValue, updateValue) => {
 
 const getAlignment = (arrDiff, element) => {
   const alignment = arrDiff
-    .filter((elem) => elem.key === element.key && elem.action !== element.action)
+    .filter(elem => elem.key === element.key && elem.action !== element.action)
   return alignment
 }
 
 const getPlainFormatter = (arrDiff, listPathElements = []) => {
   const firstElement = 0
   const result = arrDiff.flatMap((element) => {
-    const pathToKey = [...listPathElements, element.key].join('.')
+    const pathToKey = [...listPathElements, element.key,].join('.')
     if (Array.isArray(element.value)) {
-      const pathElements = [...listPathElements, element.key]
-      return [...getPlainFormatter(element.value, pathElements)]
+      const pathElements = [...listPathElements, element.key,]
+      return [...getPlainFormatter(element.value, pathElements),]
     }
     if (element.action === 'removed') {
       const update = getAlignment(arrDiff, element)
@@ -56,7 +56,7 @@ const getPlainFormatter = (arrDiff, listPathElements = []) => {
 }
 
 const plain = (arrDiff) => {
-  const result = getPlainFormatter(arrDiff).filter((str) => str !== null)
+  const result = getPlainFormatter(arrDiff).filter(str => str !== null)
     .join('\n')
     .replace(/(,)/g, '')
   return result
