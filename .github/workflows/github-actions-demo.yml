@@ -16,10 +16,7 @@ jobs:
           node-version: 20
 
       - name: install dependencies
-        run: npm ci
-
-      - name: install eslint
-        run: npm i @stylistic/eslint-plugin --legacy-peer-deps
+        run: npm ci --legacy-peer-deps
 
       - name: Run EsLint 
         run: npx eslint .
