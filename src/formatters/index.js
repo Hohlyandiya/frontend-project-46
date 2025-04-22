@@ -1,16 +1,16 @@
-import json from './json/json.js';
-import plain from './plain/plain.js';
-import { stylish } from './stylish/stylish.js';
+import json from './json/json.js'
+import plain from './plain/plain.js'
+import { stylish } from './stylish/stylish.js'
 
 const useFormatter = (arrDiff, formatter) => {
   switch (formatter) {
     case 'plain':
-      return plain(arrDiff);
+      return plain(arrDiff)
     case 'json':
-      return json(arrDiff);
+      return json(arrDiff)
     default:
-      return stylish(arrDiff);
+      return stylish(arrDiff)
   }
-};
+}
 
-export default useFormatter;
+export default useFormatter

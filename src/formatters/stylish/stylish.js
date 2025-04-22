@@ -1,53 +1,53 @@
 const stringify = (obj, deep = 1) => {
-  const repeatAmount = 4;
-  const repeatChar = ' ';
-  const leftShift = 2;
-  const offsetIndent = repeatChar.repeat(deep * repeatAmount - leftShift);
-  const indentWithoutOffset = repeatChar.repeat(deep * repeatAmount);
-  const listKey = Object.keys(obj);
+  const repeatAmount = 4
+  const repeatChar = ' '
+  const leftShift = 2
+  const offsetIndent = repeatChar.repeat(deep * repeatAmount - leftShift)
+  const indentWithoutOffset = repeatChar.repeat(deep * repeatAmount)
+  const listKey = Object.keys(obj)
   const result = listKey.map((key) => {
     if (obj[key] instanceof Object) {
-      return `\n${offsetIndent}${key}: {${stringify(obj[key], deep + 1)}\n${indentWithoutOffset}}`;
+      return `\n${offsetIndent}${key}: {${stringify(obj[key], deep + 1)}\n${indentWithoutOffset}}`
     }
-    return `\n${offsetIndent}${key}: ${obj[key]}`;
-  });
-  return result;
-};
+    return `\n${offsetIndent}${key}: ${obj[key]}`
+  })
+  return result
+}
 
 const setDistinctiveMark = (obj) => {
   switch (obj.action) {
     case ('added'):
-      return `+ ${obj.key}`;
+      return `+ ${obj.key}`
     case ('removed'):
-      return `- ${obj.key}`;
+      return `- ${obj.key}`
     default:
-      return `  ${obj.key}`;
+      return `  ${obj.key}`
   }
-};
+}
 
 const setIndentation = (obj) => {
-  const listKeys = Object.keys(obj);
+  const listKeys = Object.keys(obj)
   return listKeys.map((key) => {
-    const object = { key, value: obj[key] };
-    return object;
-  });
-};
+    const object = { key, value: obj[key] }
+    return object
+  })
+}
 
 export const formatterStylish = (arrDiff) => {
   const result = arrDiff.reduce((acc, obj) => {
-    const { value } = obj;
+    const { value } = obj
     if (Array.isArray(value)) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(value) };
+      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(value) }
     }
     if (value instanceof Object) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(setIndentation(value)) };
+      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(setIndentation(value)) }
     }
-    return { ...acc, [setDistinctiveMark(obj)]: value };
-  }, {});
-  return result;
-};
+    return { ...acc, [setDistinctiveMark(obj)]: value }
+  }, {})
+  return result
+}
 
 export const stylish = (arrDiff) => {
-  const result = formatterStylish(arrDiff);
-  return `{${stringify(result)}\n}`.replace(/(,)/g, '');
-};
+  const result = formatterStylish(arrDiff)
+  return `{${stringify(result)}\n}`.replace(/(,)/g, '')
+}
