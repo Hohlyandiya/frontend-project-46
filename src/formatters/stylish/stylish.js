@@ -28,21 +28,21 @@ const setDistinctiveMark = (obj) => {
 const setIndentation = (obj) => {
   const listKeys = Object.keys(obj)
   return listKeys.map((key) => {
-    const object = { key, value: obj[key], }
+    const object = { key, value: obj[key] }
     return object
   })
 }
 
 export const formatterStylish = (arrDiff) => {
   const result = arrDiff.reduce((acc, obj) => {
-    const { value, } = obj
+    const { value } = obj
     if (Array.isArray(value)) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(value), }
+      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(value) }
     }
     if (value instanceof Object) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(setIndentation(value)), }
+      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(setIndentation(value)) }
     }
-    return { ...acc, [setDistinctiveMark(obj)]: value, }
+    return { ...acc, [setDistinctiveMark(obj)]: value }
   }, {})
   return result
 }
