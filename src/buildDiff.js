@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 const buildDiff = (fileContent1, fileContent2) => {
-  const allKey = [..._.keys(fileContent1), ..._.keys(fileContent2),]
+  const allKey = [..._.keys(fileContent1), ..._.keys(fileContent2)]
   const allUnionKey = _.uniq(allKey)
   const result = allUnionKey.flatMap((key) => {
     if (!_.has(fileContent1, key)) {
@@ -18,9 +18,9 @@ const buildDiff = (fileContent1, fileContent2) => {
     }
     return (
       [{ key, value: fileContent1[key], action: 'removed', },
-        { key, value: fileContent2[key], action: 'added', },])
+        { key, value: fileContent2[key], action: 'added', }])
   })
-  return _.sortBy(result, ['key',])
+  return _.sortBy(result, ['key'])
 }
 
 export default buildDiff
