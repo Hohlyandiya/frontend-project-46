@@ -23,40 +23,28 @@ const updated = (currentKey, replaceableValue, updateValue) => {
   return message
 }
 
-const getAlignment = (arrDiff, element) => {
-  const alignment = arrDiff
-    .filter(elem => elem.key === element.key && elem.action !== element.action)
-  return alignment
-}
-
 const getPlainFormatter = (arrDiff, listPathElements = []) => {
-  const firstElement = 0
   const result = arrDiff.flatMap((element) => {
     const pathToKey = [...listPathElements, element.key].join('.')
-    if (Array.isArray(element.value)) {
-      const pathElements = [...listPathElements, element.key]
-      return [...getPlainFormatter(element.value, pathElements)]
-    }
-    if (element.action === 'removed') {
-      const update = getAlignment(arrDiff, element)
-      if (update.length !== 0) {
-        return updated(pathToKey, update[firstElement].value, element.value)
-      }
-      return removed(pathToKey)
-    }
-    if (element.action === 'added') {
-      const remove = getAlignment(arrDiff, element)
-      if (remove.length === 0) {
+    switch (element.action) {
+      case ('added'):
         return added(pathToKey, element.value)
-      }
+      case ('removed'):
+        return removed(pathToKey)
+      case ('nested node'):
+        const pathElements = [...listPathElements, element.key]
+        return [...getPlainFormatter(element.children, pathElements)]
+      case ('change'):
+        return updated(pathToKey, element.newValue, element.prevValue)
+      default:
+        return 'unchange'
     }
-    return null
   })
   return result
 }
 
 const plain = (arrDiff) => {
-  const result = getPlainFormatter(arrDiff).filter(str => str !== null)
+  const result = getPlainFormatter(arrDiff).filter(str => str !== 'unchange')
     .join('\n')
     .replace(/(,)/g, '')
   return result

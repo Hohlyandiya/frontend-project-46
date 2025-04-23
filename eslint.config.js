@@ -8,7 +8,6 @@ export default defineConfig([{
   },
 
   rules: {
-    'no-console': 0,
     '@stylistic/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
     '@stylistic/semi': ['error', 'never'],
     '@stylistic/no-extra-semi': 'error',

@@ -14,11 +14,9 @@ const buildDiff = (fileContent1, fileContent2) => {
       return { key, value: fileContent2[key], action: 'unchanged' }
     }
     if (fileContent1[key] instanceof Object && fileContent2[key] instanceof Object) {
-      return { key, value: buildDiff(fileContent1[key], fileContent2[key]), action: 'unchanged' }
+      return { key, children: buildDiff(fileContent1[key], fileContent2[key]), action: 'nested node' }
     }
-    return (
-      [{ key, value: fileContent1[key], action: 'removed' },
-        { key, value: fileContent2[key], action: 'added' }])
+    return { key, prevValue: fileContent1[key], newValue: fileContent2[key], action: 'change' }
   })
   return _.sortBy(result, ['key'])
 }

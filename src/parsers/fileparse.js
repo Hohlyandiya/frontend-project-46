@@ -1,18 +1,12 @@
-import { readFileSync } from 'fs'
-import path from 'path'
-import process from 'process'
 import yaml from 'js-yaml'
 
-const filesparse = (filepath) => {
-  const index = -1
-  const currentDir = process.cwd()
-  const fileContent = readFileSync(path.resolve(currentDir, filepath))
-  switch (filepath.split('.').at(index)) {
+const filesparse = (fileData) => {
+  switch (fileData.extension) {
     case ('json'):
-      return JSON.parse(fileContent)
+      return JSON.parse(fileData.content)
     case ('yaml'):
     case ('yml'):
-      return yaml.load(fileContent)
+      return yaml.load(fileData.content)
     default:
       throw new Error('Unsupported file extension')
   }

@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 const stringify = (obj, deep = 1) => {
   const repeatAmount = 4
   const repeatChar = ' '
@@ -14,17 +16,6 @@ const stringify = (obj, deep = 1) => {
   return result
 }
 
-const setDistinctiveMark = (obj) => {
-  switch (obj.action) {
-    case ('added'):
-      return `+ ${obj.key}`
-    case ('removed'):
-      return `- ${obj.key}`
-    default:
-      return `  ${obj.key}`
-  }
-}
-
 const setIndentation = (obj) => {
   const listKeys = Object.keys(obj)
   return listKeys.map((key) => {
@@ -33,16 +24,36 @@ const setIndentation = (obj) => {
   })
 }
 
+const getFinalValue = (obj) => {
+  if (_.isObject(obj)) {
+    const listKeys = Object.keys(obj)
+    return listKeys.reduce((acc, key) => {
+      const object = {
+        ...acc,
+        [`  ${key}`]: _.isObject(obj[key]) ? getFinalValue(obj[key]) : obj[key],
+      }
+      return object
+    }, {})
+  }
+  return obj
+}
+
 export const formatterStylish = (arrDiff) => {
   const result = arrDiff.reduce((acc, obj) => {
-    const { value } = obj
-    if (Array.isArray(value)) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(value) }
+    switch (obj.action) {
+      case ('added'):
+        return { ...acc, [`+ ${obj.key}`]: getFinalValue(obj.value) }
+      case ('removed'):
+        return { ...acc, [`- ${obj.key}`]: getFinalValue(obj.value) }
+      case ('nested node'):
+        return { ...acc, [`  ${obj.key}`]: formatterStylish(obj.children) }
+      case ('change'):
+        return { ...acc, [`- ${obj.key}`]: getFinalValue(obj.prevValue), [`+ ${obj.key}`]: getFinalValue(obj.newValue) }
+      case ('unchanged'):
+        return { ...acc, [`  ${obj.key}`]: getFinalValue(obj.value) }
+      default:
+        throw new Error('Unknown action')
     }
-    if (value instanceof Object) {
-      return { ...acc, [setDistinctiveMark(obj)]: formatterStylish(setIndentation(value)) }
-    }
-    return { ...acc, [setDistinctiveMark(obj)]: value }
   }, {})
   return result
 }
