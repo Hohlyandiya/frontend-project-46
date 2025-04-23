@@ -26,13 +26,13 @@ const updated = (currentKey, replaceableValue, updateValue) => {
 const getPlainFormatter = (arrDiff, listPathElements = []) => {
   const result = arrDiff.flatMap((element) => {
     const pathToKey = [...listPathElements, element.key].join('.')
+    const pathElements = [...listPathElements, element.key]
     switch (element.action) {
       case ('added'):
         return added(pathToKey, element.value)
       case ('removed'):
         return removed(pathToKey)
       case ('nested node'):
-        const pathElements = [...listPathElements, element.key]
         return [...getPlainFormatter(element.children, pathElements)]
       case ('change'):
         return updated(pathToKey, element.newValue, element.prevValue)

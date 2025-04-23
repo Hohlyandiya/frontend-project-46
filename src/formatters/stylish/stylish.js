@@ -16,14 +16,6 @@ const stringify = (obj, deep = 1) => {
   return result
 }
 
-const setIndentation = (obj) => {
-  const listKeys = Object.keys(obj)
-  return listKeys.map((key) => {
-    const object = { key, value: obj[key] }
-    return object
-  })
-}
-
 const getFinalValue = (obj) => {
   if (_.isObject(obj)) {
     const listKeys = Object.keys(obj)
